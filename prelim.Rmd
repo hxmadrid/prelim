@@ -1,0 +1,536 @@
+---
+title: "bio200-prelim"
+author: "Hewlett Xyrine Madrid"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+```
+
+```{r}
+
+library(tidyverse)
+library(ggplot2)
+library(car)
+library(forcats)
+library(lubridate)
+
+```
+
+# I. DATA
+
+```{r}
+
+#  imports main prelim data
+pre <- read.csv("C:/Users/Xyrine/Documents/School Stuff/BS BIO 5th Year/BIO 200/R/prelim/data/pre.csv")
+
+#  removes empty columns 
+#  relevel for plot label
+pre <- pre %>%
+  select(!Absorbance) %>%
+  mutate(Species = fct_relevel(Species, c("Archaster typicus", "Protoreaster nodosus",
+                                          "Linckia laevigata"))) 
+pre <- pre %>%
+   mutate(Site = fct_relevel(Site, c("Pristine", "Intermediate",
+                                          "Polluted"))) 
+  
+head(pre, 10)
+str(pre)
+
+```
+
+## 1.a. df for each species
+
+```{r}
+##  AT df
+at <- pre %>%
+  group_by(Species) %>%
+  filter(Species == "Archaster typicus") %>%
+  mutate(Site = fct_relevel(Site, c("Pristine", "Intermediate", "Polluted"))) %>%
+  print
+
+###  summary of data
+at.sum <- at %>%
+  summarize("SD" = sd(Righting),
+            "Mean" = mean(Righting),
+            "Max" = max(Righting),
+            "Min" = min(Righting),
+            "Median" = median(Righting)) %>%
+  print
+
+at.sum.rtc <- at %>%
+  summarize("SD" = sd(RTC),
+            "Mean" = mean(RTC),
+            "Max" = max(RTC),
+            "Min" = min(RTC),
+            "Median" = median(RTC)) %>%
+  print
+
+
+
+##  PN df
+pn <- pre %>%
+  group_by(Species) %>%
+  filter(Species == "Protoreaster nodosus") %>%
+  mutate(Site = fct_relevel(Site, c("Pristine", "Intermediate", "Polluted"))) %>%
+  print
+
+###  summary of data
+pn.sum <- pn %>%
+  summarize("SD" = sd(Righting),
+            "Mean" = mean(Righting),
+            "Max" = max(Righting),
+            "Min" = min(Righting),
+            "Median" = median(Righting)) %>%
+  print
+
+pn.sum.rtc <- pn %>%
+  summarize("SD" = sd(RTC),
+            "Mean" = mean(RTC),
+            "Max" = max(RTC),
+            "Min" = min(RTC),
+            "Median" = median(RTC)) %>%
+  print
+
+
+
+##  LL df
+ll <- pre %>%
+  group_by(Species) %>%
+  filter(Species == "Linckia laevigata") %>%
+  mutate(Site = fct_relevel(Site, c("Pristine", "Intermediate", "Polluted"))) %>%
+  print
+
+###  summary of data
+ll.sum <- ll %>%
+  summarize("SD" = sd(Righting),
+            "Mean" = mean(Righting),
+            "Max" = max(Righting),
+            "Min" = min(Righting),
+            "Median" = median(Righting)) %>%
+  print
+
+ll.sum.rtc <- ll %>%
+  summarize("SD" = sd(RTC),
+            "Mean" = mean(RTC),
+            "Max" = max(RTC),
+            "Min" = min(RTC),
+            "Median" = median(RTC)) %>%
+  print
+
+```
+
+## 1.b. df for each site
+
+```{r}
+## site 1 (pristine)
+s1 <- pre %>%
+  filter(Site == "Pristine") %>%
+  mutate(Species = fct_relevel(Species, c("Archaster typicus", "Protoreaster nodosus",
+                                          "Linckia laevigata"))) %>%
+  print
+
+###  summary of data
+s1.sum <- s1 %>%
+  summarize("SD" = sd(Righting),
+            "Mean" = mean(Righting),
+            "Max" = max(Righting),
+            "Min" = min(Righting),
+            "Median" = median(Righting)) %>%
+  print
+
+s1.sum.rtc <- s1 %>%
+  summarize("SD" = sd(RTC),
+            "Mean" = mean(RTC),
+            "Max" = max(RTC),
+            "Min" = min(RTC),
+            "Median" = median(RTC)) %>%
+  print
+
+
+
+## s2 (intermediate)
+s2 <- pre %>%
+  filter(Site == "Intermediate") %>%
+   mutate(Species = fct_relevel(Species, c("Archaster typicus", "Protoreaster nodosus",
+                                          "Linckia laevigata"))) %>%
+  print
+
+###  summary of data
+s2.sum <- s2 %>%
+  summarize("SD" = sd(Righting),
+            "Mean" = mean(Righting),
+            "Max" = max(Righting),
+            "Min" = min(Righting),
+            "Median" = median(Righting)) %>%
+  print
+
+s2.sum.rtc <- s2 %>%
+  summarize("SD" = sd(RTC),
+            "Mean" = mean(RTC),
+            "Max" = max(RTC),
+            "Min" = min(RTC),
+            "Median" = median(RTC)) %>%
+  print
+
+
+
+## s3 (polluted)
+s3 <- pre %>%
+  filter(Site == "Polluted") %>%
+   mutate(Species = fct_relevel(Species, c("Archaster typicus", "Protoreaster nodosus",
+                                          "Linckia laevigata"))) %>%
+  print
+
+###  summary of data
+s3.sum <- s3 %>%
+  summarize("SD" = sd(Righting),
+            "Mean" = mean(Righting),
+            "Max" = max(Righting),
+            "Min" = min(Righting),
+            "Median" = median(Righting)) %>%
+  print
+
+s3.sum.rtc <- s3 %>%
+  summarize("SD" = sd(RTC),
+            "Mean" = mean(RTC),
+            "Max" = max(RTC),
+            "Min" = min(RTC),
+            "Median" = median(RTC)) %>%
+  print
+
+```
+
+# II. PLOTS
+
+```{r}
+
+#  generates plot for at
+at.bplot <- ggplot(at, aes(x = Site, y = RTC)) + geom_boxplot()
+at.bplot
+
+#  generates plot for pn
+pn.bplot <- ggplot(pn, aes(x = Site, y = RTC)) + geom_boxplot()
+pn.bplot
+
+#  generates plot for ll
+ll.bplot <- ggplot(ll, aes(x = Site, y = RTC)) + geom_boxplot()
+ll.bplot
+
+
+
+#  generates plot for s1
+s1.bplot <- ggplot(s1, aes(x = Species, y = RTC)) + geom_boxplot()
+s1.bplot
+
+#  generates plot for s2
+s2.bplot <- ggplot(s2, aes(x = Species, y = RTC)) + geom_boxplot()
+s2.bplot
+
+#  generates plot for s3
+s3.bplot <- ggplot(s3, aes(x = Species, y = RTC)) + geom_boxplot()
+s3.bplot
+
+
+
+#  generates plot for s1_RB
+s1.bplot.rb <- ggplot(s1, aes(x = Species, y = Righting)) + geom_boxplot() +
+  ylab("Righting Time (seconds)") + 
+  ggtitle("A") + 
+  theme(plot.title = element_text(size = 24, face = "bold"))
+s1.bplot.rb
+
+ggsave("C:/Users/Xyrine/Documents/School Stuff/BS BIO 5th Year/BIO 200/R/prelim/figures/rb_s1.png",
+       width = 8, 
+       height = 5)
+
+
+#  generates plot for s2_RB
+s2.bplot.rb <- ggplot(s2, aes(x = Species, y = Righting)) + geom_boxplot() +
+  ylab("Righting Time (seconds)") + 
+  ggtitle("B") + 
+  theme(plot.title = element_text(size = 24, face = "bold"))
+s2.bplot.rb
+
+ggsave("C:/Users/Xyrine/Documents/School Stuff/BS BIO 5th Year/BIO 200/R/prelim/figures/rb_s2.png",
+       width = 8, 
+       height = 5)
+
+#  generates plot for s3_RB
+s3.bplot.rb <- ggplot(s3, aes(x = Species, y = Righting)) + geom_boxplot() +
+  ylab("Righting Time (seconds)") + 
+  ggtitle("C") + 
+  theme(plot.title = element_text(size = 24, face = "bold"))
+s3.bplot.rb
+
+ggsave("C:/Users/Xyrine/Documents/School Stuff/BS BIO 5th Year/BIO 200/R/prelim/figures/rb_s3.png",
+       width = 8, 
+       height = 5)
+
+```
+
+## 2.a. Overall plots
+
+### 2.a.i. RB
+
+```{r}
+
+##  for palette
+cbp1 <- c("#999999", "#E69F00", "#56B4E9", "#009E73",
+          "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+##  rb boxplot
+rb.bplot <- ggplot(pre, aes(x = Site, y = Righting, fill = Species)) + 
+  geom_boxplot() +
+  scale_fill_manual(values = cbp1) +
+  ylab("Righting Time (seconds)") +
+  ggtitle("B") + 
+  theme(plot.title = element_text(size = 24, face = "bold")) 
+
+### saves into png
+ggsave("C:/Users/Xyrine/Documents/School Stuff/BS BIO 5th Year/BIO 200/R/prelim/figures/rb_overall.png",
+       width = 8, 
+       height = 5)
+```
+
+### 2.a.ii. RTC
+
+```{r}
+##  rtc boxplot
+rtc.bplot <- ggplot(pre, aes(x = Site, y = RTC, fill = Species)) + 
+  geom_boxplot() +
+  scale_fill_manual(values = cbp1) +
+  ylab("Righting Time Coefficient (RTC)") +
+  ggtitle("A") +
+  theme(plot.title = element_text(size = 24, face = "bold"))
+
+### saves into png
+ggsave("C:/Users/Xyrine/Documents/School Stuff/BS BIO 5th Year/BIO 200/R/prelim/figures/rtc_overall.png",
+       width = 8, 
+       height = 5)
+
+```
+
+# III. DATA ANALYSIS
+
+## 3.a. RB_Species across sites
+
+### 3.a.i. ONE-WAY ANOVA (A. TYPICUS)
+
+```{r}
+
+#  ASSUMPTION: homogeneity of variances
+leveneTest(RTC ~ Site, at)
+
+## Accept null hypothesis (p = 0.2586; p > 0.05)
+## Not enough evidence suggesting that differences in variances between groups 
+### are statistically significant 
+
+## Assume homoscedasticity
+
+
+#  ASSUMPTION: Normality
+shapiro.test(at$RTC[at$Site == "Pristine"]) ## (p = 0.1593; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+shapiro.test(at$RTC[at$Site == "Intermediate"]) ## (p = 0.8; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+shapiro.test(at$RTC[at$Site == "Polluted"]) ## (p = 0.5315; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+
+#  ANOVA
+at.anov <- aov(RTC ~ Site, at)
+summary(at.anov) # (p = 1.05e-07; p < 0.05)
+
+## Reject Ho; there is a significant difference in RB between sites for AT
+
+```
+
+### 3.a.ii. ONE-WAY ANOVA (P. NODOSUS)
+
+```{r}
+
+#  ASSUMPTION: homogeneity of variances
+leveneTest(RTC ~ Site, pn)
+
+## Accept null hypothesis (p = 0.6872; p > 0.05)
+## Not enough evidence suggesting that differences in variances between groups 
+### are statistically significant 
+
+## Assume homoscedasticity
+
+
+#  ASSUMPTION: Normality
+shapiro.test(pn$RTC[pn$Site == "Pristine"]) ## (p = 0.1628; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+shapiro.test(pn$RTC[pn$Site == "Intermediate"]) ## (p = 0.3658; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+shapiro.test(at$RTC[at$Site == "Polluted"]) ## (p = 0.9326; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+
+#  ANOVA
+pn.anov <- aov(RTC ~ Site, pn)
+summary(pn.anov) # (p = 0.0118; p < 0.05)
+
+## Reject Ho; there is a significant difference in RB between sites for PN
+
+```
+
+### 3.a.iii. ONE-WAY ANOVA (L. LAEVIGATA)
+
+```{r}
+
+#  ASSUMPTION: homogeneity of variances
+leveneTest(RTC ~ Site, ll)
+
+## Accept null hypothesis (p = 0.4386; p > 0.05)
+## Not enough evidence suggesting that differences in variances between groups 
+### are statistically significant 
+
+## Assume homoscedasticity
+
+
+#  ASSUMPTION: Normality
+shapiro.test(ll$RTC[ll$Site == "Pristine"]) ## (p = 0.2516; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+shapiro.test(ll$RTC[ll$Site == "Intermediate"]) ## (p = 0.7663; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+shapiro.test(ll$RTC[ll$Site == "Polluted"]) ## (p = 0.2079; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+
+#  ANOVA
+ll.anov <- aov(RTC ~ Site, ll)
+summary(ll.anov) # (p = 0.0413)
+
+## Accept Ho; there is a significant difference in RB between sites for PN
+
+```
+
+## 3.b. RB_Between species each site
+
+### 3.b.i. Site 1 (Pristine)
+
+```{r}
+
+#  ASSUMPTION: homogeneity of variances
+leveneTest(RTC ~ Species, s1)
+
+## Accept null hypothesis (p = 0.22; p > 0.05)
+## Not enough evidence suggesting that differences in variances between groups 
+### are statistically significant 
+
+## Assume homoscedasticity
+
+
+#  ASSUMPTION: Normality
+shapiro.test(s1$RTC[s1$Species == "Archaster typicus"]) ## (p = 0.1593; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+shapiro.test(s1$RTC[s1$Species == "Protoreaster nodosus"]) ## (p = 0.1628; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+shapiro.test(s1$RTC[s1$Species == "Linckia laevigata"]) ## (p = 0.2516; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+
+#  ANOVA
+s1.anov <- aov(RTC ~ Species, s1)
+summary(s1.anov) # (p = 4.08e-08; p < 0.05)
+
+## Reject Ho; there is a significant difference in RB between species in Pristine Site
+
+```
+
+### 3.b.ii. Site 2 (Intermediate)
+
+```{r}
+
+#  ASSUMPTION: homogeneity of variances
+leveneTest(RTC ~ Species, s2)
+
+## Accept null hypothesis (p = 0.7148; p > 0.05)
+## Not enough evidence suggesting that differences in variances between groups 
+### are statistically significant 
+
+## Assume homoscedasticity
+
+
+#  ASSUMPTION: Normality
+shapiro.test(s2$RTC[s2$Species == "Archaster typicus"]) ## (p = 0.8; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+shapiro.test(s2$RTC[s2$Species == "Protoreaster nodosus"]) ## (p = 0.3658; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+shapiro.test(s2$RTC[s2$Species == "Linckia laevigata"]) ## (p = 0.7663; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+
+#  ANOVA
+s2.anov <- aov(RTC ~ Species, s2)
+summary(s2.anov) # (p = 0.000553; p < 0.05)
+
+## Reject Ho; there is a significant difference in RB between species in Pristine Site
+
+```
+
+### 3.b.iii. Site 3 (Polluted)
+
+```{r}
+
+#  ASSUMPTION: homogeneity of variances
+leveneTest(RTC ~ Species, s3)
+
+## Accept null hypothesis (p = 0.4304; p > 0.05)
+## Not enough evidence suggesting that differences in variances between groups 
+### are statistically significant 
+
+## Assume homoscedasticity
+
+
+#  ASSUMPTION: Normality
+shapiro.test(s3$RTC[s3$Species == "Archaster typicus"]) ## (p = 0.5315; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+shapiro.test(s3$RTC[s3$Species == "Protoreaster nodosus"]) ## (p = 0.4867; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+shapiro.test(s3$RTC[s3$Species == "Linckia laevigata"]) ## (p = 0.6411; p > 0.05)
+## Accept null hypothesis that population is normally distributed
+## Assume normal distribution of data
+
+
+#  ANOVA
+s3.anov <- aov(RTC ~ Species, s3)
+summary(s3.anov) # (p = 3.5e-05; p < 0.05)
+
+## Reject Ho; there is a significant difference in RB between species in Pristine Site
+
+```
