@@ -306,13 +306,18 @@ rtc.bplot <- ggplot(pre, aes(x = Site, y = RTC, fill = Species)) +
                                expression(italic("Protoreaster nodosus")), 
                                expression(italic("Linckia laevigata")))) +
   ylab("Righting Time Coefficient (RTC)") +
+  theme_bw() +
   theme(plot.title = element_text(size = 24, face = "bold"), 
         axis.title = element_text(size = 16, face = "bold"),
         axis.title.x = element_text(margin = margin(t = 15)),
         axis.title.y = element_text(margin = margin(r = 15)),
         axis.text = element_text(size = 12), 
         legend.text.align = 0,
-        legend.text = element_text(size = 10))
+        legend.text = element_text(size = 10),
+        plot.background = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank())
 
 ### saves into png
 ggsave("C:/Users/Xyrine/Documents/School Stuff/BS BIO 5th Year/BIO 200/R/prelim/figures/rtc_overall.png",
