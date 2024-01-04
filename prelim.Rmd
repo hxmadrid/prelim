@@ -301,10 +301,18 @@ ggsave("C:/Users/Xyrine/Documents/School Stuff/BS BIO 5th Year/BIO 200/R/prelim/
 ##  rtc boxplot
 rtc.bplot <- ggplot(pre, aes(x = Site, y = RTC, fill = Species)) + 
   geom_boxplot() +
-  scale_fill_manual(values = cbp1) +
+  scale_fill_manual(values = cbp1,
+                    labels = c(expression(italic("Archaster typicus")),
+                               expression(italic("Protoreaster nodosus")), 
+                               expression(italic("Linckia laevigata")))) +
   ylab("Righting Time Coefficient (RTC)") +
-  ggtitle("A") +
-  theme(plot.title = element_text(size = 24, face = "bold"))
+  theme(plot.title = element_text(size = 24, face = "bold"), 
+        axis.title = element_text(size = 16, face = "bold"),
+        axis.title.x = element_text(margin = margin(t = 15)),
+        axis.title.y = element_text(margin = margin(r = 15)),
+        axis.text = element_text(size = 12), 
+        legend.text.align = 0,
+        legend.text = element_text(size = 10))
 
 ### saves into png
 ggsave("C:/Users/Xyrine/Documents/School Stuff/BS BIO 5th Year/BIO 200/R/prelim/figures/rtc_overall.png",
@@ -532,5 +540,12 @@ s3.anov <- aov(RTC ~ Species, s3)
 summary(s3.anov) # (p = 3.5e-05; p < 0.05)
 
 ## Reject Ho; there is a significant difference in RB between species in Pristine Site
+
+```
+
+```{r}
+
+
+
 
 ```
