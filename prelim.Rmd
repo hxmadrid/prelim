@@ -546,10 +546,44 @@ summary(s3.anov) # (p = 3.5e-05; p < 0.05)
 ## Reject Ho; there is a significant difference in RB between species in Pristine Site
 
 ```
-
+## 3.c. Post-hoc
 ```{r}
 
+#  A. typicus
+tukey.at <- TukeyHSD(at.anov)
+tukey.at
+
+plot(tukey.at)
+
+#  P. nodosus
+tukey.pn <- TukeyHSD(pn.anov)
+tukey.pn
+
+plot(tukey.pn)
+
+#  L. laevigata
+tukey.ll <- TukeyHSD(ll.anov)
+tukey.ll
+
+plot(tukey.ll)
 
 
+#  S1
+tukey.s1 <- TukeyHSD(s1.anov)
+tukey.s1
+
+plot(tukey.s1)
+
+#  S2
+tukey.s2 <- TukeyHSD(s2.anov)
+tukey.s2
+
+plot(tukey.s2)
+
+#  S3
+tukey.s3 <- TukeyHSD(s3.anov)
+tukey.s3
+
+plot(tukey.s3)
 
 ```
